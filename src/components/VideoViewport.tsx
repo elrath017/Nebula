@@ -178,48 +178,49 @@ export const VideoViewport: React.FC<VideoViewportProps> = ({
 
       {/* Toast Notification Overlay */}
       {toastMessage && (
-        <div className="absolute top-6 right-6 z-50 bg-nebula-panel/95 backdrop-blur-md border border-nebula-red/60 text-slate-100 font-semibold px-4 py-2 rounded-xl shadow-glow-red animate-bounce text-sm flex items-center space-x-2">
-          <span className="w-2 h-2 rounded-full bg-nebula-blue animate-ping" />
+        <div className="absolute top-6 right-6 z-50 bg-[#101226]/95 backdrop-blur-md border border-[#E62B70]/60 text-slate-100 font-semibold px-4 py-2 rounded-xl shadow-glow-red animate-bounce text-sm flex items-center space-x-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#38BDF8] animate-ping" />
           <span>{toastMessage}</span>
         </div>
       )}
 
       {/* Drag & Drop Visual Overlay */}
       {isDragOver && (
-        <div className="absolute inset-0 z-50 bg-nebula-dark/95 backdrop-blur-md border-4 border-dashed border-nebula-red flex flex-col items-center justify-center text-nebula-blue space-y-4">
-          <UploadCloud className="w-20 h-20 text-nebula-red animate-bounce" />
-          <h2 className="text-2xl font-extrabold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-nebula-red via-purple-400 to-nebula-blue">
+        <div className="absolute inset-0 z-50 bg-[#090A16]/95 backdrop-blur-md border-4 border-dashed border-[#E62B70] flex flex-col items-center justify-center text-[#38BDF8] space-y-4">
+          <UploadCloud className="w-20 h-20 text-[#E62B70] animate-bounce" />
+          <h2 className="text-2xl font-extrabold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-[#E62B70] via-[#8B5CF6] to-[#38BDF8]">
             Drop Folder or Media Files Here
           </h2>
           <p className="text-slate-400 text-sm">Extracts videos & music into Nebula playlist queue</p>
         </div>
       )}
 
-      {/* No Track Selected -> High-End Cosmic Nebula Home Screen Viewport */}
+      {/* No Track Selected -> Orion Nebula Visual Home Screen Viewport */}
       {!currentTrack ? (
-        <div className="w-full h-full flex flex-col items-center justify-center p-6 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#1C1635] via-nebula-dark to-[#05060C] text-slate-100 relative overflow-hidden">
-          {/* Background Nebula Gas Effects */}
-          <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-nebula-red/15 blur-[120px] pointer-events-none" />
-          <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-nebula-blue/15 blur-[120px] pointer-events-none" />
+        <div className="w-full h-full flex flex-col items-center justify-center p-6 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#230C2D] via-[#0F0D24] to-[#04050A] text-slate-100 relative overflow-hidden">
+          {/* Orion Nebula Cosmic Gas Dust Clouds */}
+          <div className="absolute -top-24 -left-24 w-[30rem] h-[30rem] rounded-full bg-[#E62B70]/20 blur-[130px] pointer-events-none" />
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[25rem] h-[25rem] rounded-full bg-[#8B5CF6]/20 blur-[120px] pointer-events-none" />
+          <div className="absolute -bottom-24 -right-24 w-[30rem] h-[30rem] rounded-full bg-[#38BDF8]/20 blur-[140px] pointer-events-none" />
 
-          <div className="max-w-md w-full bg-nebula-panel/85 border border-nebula-border rounded-3xl p-8 shadow-2xl backdrop-blur-xl flex flex-col items-center text-center space-y-6 animate-in fade-in zoom-in-95 duration-200 relative z-10">
-            {/* Cosmic Glowing Atom/Nebula Orb Icon */}
-            <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-nebula-red via-purple-600 to-nebula-blue p-0.5 shadow-glow-red flex items-center justify-center transform hover:scale-105 transition-transform duration-300">
-              <div className="w-full h-full bg-nebula-dark rounded-full flex items-center justify-center">
-                <Atom className="w-14 h-14 text-nebula-blue animate-spin-slow" />
+          <div className="max-w-md w-full bg-[#101226]/85 border border-[#282C4F] rounded-3xl p-8 shadow-2xl backdrop-blur-xl flex flex-col items-center text-center space-y-6 animate-in fade-in zoom-in-95 duration-200 relative z-10">
+            {/* Orion Core Orb Icon */}
+            <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-[#E62B70] via-[#8B5CF6] to-[#38BDF8] p-0.5 shadow-glow-red flex items-center justify-center transform hover:scale-105 transition-transform duration-300">
+              <div className="w-full h-full bg-[#090A16] rounded-full flex items-center justify-center">
+                <Atom className="w-14 h-14 text-[#38BDF8] animate-spin-slow" />
               </div>
             </div>
 
             <div>
               <div className="flex items-center justify-center space-x-2 mb-1">
-                <Sparkles className="w-4 h-4 text-nebula-red" />
-                <h1 className="text-2xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-nebula-red via-purple-300 to-nebula-blue">
+                <Sparkles className="w-4 h-4 text-[#E62B70]" />
+                <h1 className="text-2xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#E62B70] via-[#C084FC] to-[#38BDF8]">
                   Nebula Media Player
                 </h1>
-                <Sparkles className="w-4 h-4 text-nebula-blue" />
+                <Sparkles className="w-4 h-4 text-[#38BDF8]" />
               </div>
               <p className="text-xs text-slate-400">
-                Cosmic High-Fidelity Audio & Video Engine
+                Orion Cosmic High-Fidelity Audio & Video Engine
               </p>
             </div>
 
@@ -227,7 +228,7 @@ export const VideoViewport: React.FC<VideoViewportProps> = ({
             <div className="w-full flex flex-col space-y-3 pt-2">
               <button
                 onClick={() => homeFolderInputRef.current?.click()}
-                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-nebula-red to-rose-600 hover:from-rose-600 hover:to-nebula-red text-white font-bold shadow-glow-red flex items-center justify-center space-x-2.5 transition-all active:scale-[0.98] text-xs uppercase tracking-wider"
+                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#E62B70] via-[#9333EA] to-[#6366F1] hover:from-[#F43F5E] hover:to-[#38BDF8] text-white font-bold shadow-glow-red flex items-center justify-center space-x-2.5 transition-all active:scale-[0.98] text-xs uppercase tracking-wider"
               >
                 <FolderSearch className="w-4 h-4 stroke-[2.5]" />
                 <span>Open Folder (Videos & Music)</span>
@@ -235,16 +236,16 @@ export const VideoViewport: React.FC<VideoViewportProps> = ({
 
               <button
                 onClick={() => homeFileInputRef.current?.click()}
-                className="w-full py-3 px-4 rounded-xl bg-slate-900/90 hover:bg-slate-800/90 text-nebula-blue font-semibold border border-nebula-blue/40 shadow-glow-blue flex items-center justify-center space-x-2.5 transition-all active:scale-[0.98] text-xs"
+                className="w-full py-3 px-4 rounded-xl bg-[#101226]/90 hover:bg-[#191C36] text-[#38BDF8] font-semibold border border-[#38BDF8]/40 shadow-glow-blue flex items-center justify-center space-x-2.5 transition-all active:scale-[0.98] text-xs"
               >
-                <FileVideo className="w-4 h-4 text-nebula-blue" />
+                <FileVideo className="w-4 h-4 text-[#38BDF8]" />
                 <span>Open File(s)...</span>
               </button>
             </div>
 
             {/* Drag & Drop Hint Box */}
-            <div className="w-full p-3 rounded-xl border border-dashed border-nebula-border bg-nebula-dark/60 text-[11px] text-slate-400 flex items-center justify-center space-x-2">
-              <UploadCloud className="w-4 h-4 text-nebula-red" />
+            <div className="w-full p-3 rounded-xl border border-dashed border-[#282C4F] bg-[#090A16]/60 text-[11px] text-slate-400 flex items-center justify-center space-x-2">
+              <UploadCloud className="w-4 h-4 text-[#E62B70]" />
               <span>Or drag & drop any folder or media files anywhere</span>
             </div>
           </div>
@@ -286,8 +287,8 @@ export const VideoViewport: React.FC<VideoViewportProps> = ({
           {/* Big Play Pause Overlay Indicator when paused */}
           {playbackStatus === 'Paused' && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/30 pointer-events-none transition-opacity">
-              <div className="w-20 h-20 rounded-full bg-nebula-panel/90 border border-nebula-red/60 flex items-center justify-center text-nebula-red shadow-glow-red">
-                <Play className="w-10 h-10 ml-1 fill-nebula-red" />
+              <div className="w-20 h-20 rounded-full bg-[#101226]/90 border border-[#E62B70]/60 flex items-center justify-center text-[#E62B70] shadow-glow-red">
+                <Play className="w-10 h-10 ml-1 fill-[#E62B70]" />
               </div>
             </div>
           )}

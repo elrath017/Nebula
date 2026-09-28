@@ -96,7 +96,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
 
   return (
     <div
-      className={`bg-vlc-dark/95 backdrop-blur border-t border-vlc-border px-4 py-2 flex flex-col justify-between transition-all duration-300 z-30 select-none ${
+      className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-vlc-dark/95 via-vlc-dark/85 to-transparent backdrop-blur-md border-t border-vlc-border/40 px-4 py-3 flex flex-col justify-between transition-all duration-300 z-30 select-none ${
         isControlsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full pointer-events-none'
       }`}
     >

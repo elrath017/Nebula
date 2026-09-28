@@ -1,10 +1,13 @@
 import { useRef, useEffect, useCallback } from 'react';
 import { usePlayerStore } from '../state/playerStore';
 import { useAudioEngine } from './useAudioEngine';
+import { saveResumePosition, getResumePosition } from '../services/playbackResume';
+import { formatTime } from '../services/metadataParser';
 
 export function useMediaPlayer() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const lastSaveTimeRef = useRef<number>(0);
 
   const {
     currentTrack,
@@ -33,9 +36,7 @@ export function useMediaPlayer() {
       media.volume = 0;
       setVolumeBoost(0);
     } else {
-      // Direct media element volume capped at 1.0 (100%)
       media.volume = Math.min(1.0, volume / 100);
-      // Web audio gain node handles up to 2.0 (200%)
       setVolumeBoost(volume / 100);
     }
   }, [volume, isMuted, setVolumeBoost]);
@@ -52,6 +53,15 @@ export function useMediaPlayer() {
     setAudioDelayMs(audioDelayMs);
   }, [audioDelayMs, setAudioDelayMs]);
 
+  // Save playback position on unmount / track change
+  useEffect(() => {
+    return () => {
+      if (videoRef.current && currentTrack) {
+        saveResumePosition(currentTrack.title, videoRef.current.currentTime);
+      }
+    };
+  }, [currentTrack]);
+
   // Play / Pause toggler
   const togglePlay = useCallback(() => {
     if (!videoRef.current || !currentTrack) return;
@@ -67,28 +77,33 @@ export function useMediaPlayer() {
       });
     } else {
       video.pause();
+      saveResumePosition(currentTrack.title, video.currentTime);
       setPlaybackStatus('Paused');
     }
   }, [currentTrack, setPlaybackStatus, showToast]);
 
   // Stop playback
   const stopPlayback = useCallback(() => {
-    if (videoRef.current) {
+    if (videoRef.current && currentTrack) {
+      saveResumePosition(currentTrack.title, videoRef.current.currentTime);
       videoRef.current.pause();
       videoRef.current.currentTime = 0;
     }
     setCurrentTime(0);
     setPlaybackStatus('Stopped');
     showToast('Playback Stopped');
-  }, [setCurrentTime, setPlaybackStatus, showToast]);
+  }, [currentTrack, setCurrentTime, setPlaybackStatus, showToast]);
 
   // Seek scrubber
   const seekTo = useCallback((targetTimeSec: number) => {
     if (videoRef.current) {
       videoRef.current.currentTime = targetTimeSec;
       setCurrentTime(targetTimeSec);
+      if (currentTrack) {
+        saveResumePosition(currentTrack.title, targetTimeSec);
+      }
     }
-  }, [setCurrentTime]);
+  }, [currentTrack, setCurrentTime]);
 
   // Jump relative seconds (e.g. +5s, -5s)
   const jumpRelative = useCallback((deltaSec: number) => {
@@ -97,8 +112,11 @@ export function useMediaPlayer() {
       videoRef.current.currentTime = newTime;
       setCurrentTime(newTime);
       showToast(`${deltaSec > 0 ? '+' : ''}${deltaSec}s`);
+      if (currentTrack) {
+        saveResumePosition(currentTrack.title, newTime);
+      }
     }
-  }, [setCurrentTime, showToast]);
+  }, [currentTrack, setCurrentTime, showToast]);
 
   // Frame advance (1/25th of a second step)
   const stepFrame = useCallback(() => {
@@ -150,19 +168,38 @@ export function useMediaPlayer() {
 
   // Media element event handlers
   const handleLoadedMetadata = () => {
-    if (videoRef.current) {
-      setDuration(videoRef.current.duration || 0);
-      videoRef.current.playbackRate = playbackSpeed;
+    if (!videoRef.current || !currentTrack) return;
+    const video = videoRef.current;
+    const durationSec = video.duration || 0;
+    setDuration(durationSec);
+    video.playbackRate = playbackSpeed;
+
+    // Check for saved resume position
+    const savedPos = getResumePosition(currentTrack.title);
+    if (savedPos > 3 && savedPos < durationSec - 5) {
+      video.currentTime = savedPos;
+      setCurrentTime(savedPos);
+      showToast(`Resumed from ${formatTime(savedPos)}`);
     }
   };
 
   const handleTimeUpdate = () => {
-    if (videoRef.current) {
-      setCurrentTime(videoRef.current.currentTime);
+    if (!videoRef.current || !currentTrack) return;
+    const nowSec = videoRef.current.currentTime;
+    setCurrentTime(nowSec);
+
+    // Save resume timestamp every 3 seconds
+    if (Math.abs(nowSec - lastSaveTimeRef.current) >= 3) {
+      lastSaveTimeRef.current = nowSec;
+      saveResumePosition(currentTrack.title, nowSec);
     }
   };
 
   const handleEnded = () => {
+    if (currentTrack) {
+      saveResumePosition(currentTrack.title, 0); // Reset position on completion
+    }
+
     if (isLooping === 'item') {
       if (videoRef.current) {
         videoRef.current.currentTime = 0;

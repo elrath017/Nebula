@@ -35,6 +35,51 @@ export async function filterAndProcessMediaFiles(files: FileList | File[]): Prom
   return items;
 }
 
+export type PickDirectoryResult = 
+  | { status: 'success'; items: MediaItem[] }
+  | { status: 'cancelled' }
+  | { status: 'unsupported' };
+
+/**
+ * Uses modern FileSystem Access API (showDirectoryPicker) if available
+ * to select a directory locally without triggering any browser upload prompt dialog.
+ */
+export async function pickDirectoryWithFileSystemAPI(): Promise<PickDirectoryResult> {
+  if ('showDirectoryPicker' in window) {
+    try {
+      // @ts-expect-error showDirectoryPicker is standard in Chrome/Edge/Opera
+      const dirHandle = await window.showDirectoryPicker();
+      const files: File[] = [];
+
+      // Recursive scanner helper
+      const scanDir = async (handle: FileSystemDirectoryHandle) => {
+        // @ts-expect-error values iterator
+        for await (const entry of handle.values()) {
+          if (entry.kind === 'file') {
+            const file = await entry.getFile();
+            if (isMediaFile(file)) {
+              files.push(file);
+            }
+          } else if (entry.kind === 'directory') {
+            await scanDir(entry);
+          }
+        }
+      };
+
+      await scanDir(dirHandle);
+      const items = await filterAndProcessMediaFiles(files);
+      return { status: 'success', items };
+    } catch (err: unknown) {
+      if (err instanceof Error && err.name === 'AbortError') {
+        return { status: 'cancelled' };
+      }
+      console.warn('showDirectoryPicker failed, falling back to input ref', err);
+      return { status: 'unsupported' };
+    }
+  }
+  return { status: 'unsupported' };
+}
+
 /**
  * Recursively scans directory entries from Drag & Drop DataTransferItems
  * to extract only video and music media files from dropped folders.
@@ -65,7 +110,6 @@ export async function scanDroppedDirectoryItems(items: DataTransferItemList): Pr
               for (const childEntry of entries) {
                 await readEntry(childEntry);
               }
-              // Directory reader may return entries in batches, keep reading until empty
               readEntries();
             }
           }, () => resolve());

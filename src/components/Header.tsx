@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { usePlayerStore } from '../state/playerStore';
 import { createMediaItemFromFile } from '../services/metadataParser';
-import { filterAndProcessMediaFiles } from '../services/fileLoader';
+import { filterAndProcessMediaFiles, pickDirectoryWithFileSystemAPI } from '../services/fileLoader';
 import { parseSubtitleContent } from '../hooks/useSubtitleParser';
 import { exportM3U } from '../services/m3uParser';
 import { NebulaAppIcon } from './NebulaAppIcon';
@@ -76,6 +76,21 @@ export const Header: React.FC = () => {
       showToast(`Loaded ${mediaItems.length} media file(s) from folder`);
     }
     setActiveMenu(null);
+  };
+
+  const handleTriggerFolder = async () => {
+    setActiveMenu(null);
+    const result = await pickDirectoryWithFileSystemAPI();
+    if (result.status === 'success') {
+      if (result.items.length === 0) {
+        showToast('No video or music files found in selected folder');
+      } else {
+        setPlaylist(result.items);
+        showToast(`Loaded ${result.items.length} media file(s) from folder`);
+      }
+    } else if (result.status === 'unsupported') {
+      folderInputRef.current?.click();
+    }
   };
 
   const handleOpenSubtitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -174,7 +189,7 @@ export const Header: React.FC = () => {
                 <span className="text-[10px] text-slate-500 font-mono">Ctrl+O</span>
               </button>
               <button
-                onClick={() => folderInputRef.current?.click()}
+                onClick={handleTriggerFolder}
                 className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-nebula-red/20 hover:text-nebula-red"
               >
                 <FolderSearch className="w-4 h-4 text-nebula-red" />

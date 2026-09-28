@@ -3,7 +3,7 @@ import { usePlayerStore } from '../state/playerStore';
 import { AudioVisualizer } from './AudioVisualizer';
 import { SubtitleOverlay } from './SubtitleOverlay';
 import { UploadCloud, Play, FolderSearch, FileVideo, Sparkles } from 'lucide-react';
-import { scanDroppedDirectoryItems, filterAndProcessMediaFiles } from '../services/fileLoader';
+import { scanDroppedDirectoryItems, filterAndProcessMediaFiles, pickDirectoryWithFileSystemAPI } from '../services/fileLoader';
 import { createMediaItemFromFile } from '../services/metadataParser';
 import { NebulaAppIcon } from './NebulaAppIcon';
 
@@ -73,6 +73,20 @@ export const VideoViewport: React.FC<VideoViewportProps> = ({
     } else {
       setPlaylist(mediaItems);
       showToast(`Loaded ${mediaItems.length} video & music track(s) from folder`);
+    }
+  };
+
+  const handleTriggerHomeFolder = async () => {
+    const result = await pickDirectoryWithFileSystemAPI();
+    if (result.status === 'success') {
+      if (result.items.length === 0) {
+        showToast('No video or music files found in selected folder');
+      } else {
+        setPlaylist(result.items);
+        showToast(`Loaded ${result.items.length} video & music track(s) from folder`);
+      }
+    } else if (result.status === 'unsupported') {
+      homeFolderInputRef.current?.click();
     }
   };
 
@@ -224,7 +238,7 @@ export const VideoViewport: React.FC<VideoViewportProps> = ({
             {/* Action Buttons: Open Folder & Open File */}
             <div className="w-full flex flex-col space-y-3 pt-2">
               <button
-                onClick={() => homeFolderInputRef.current?.click()}
+                onClick={handleTriggerHomeFolder}
                 className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#00E5FF] via-[#FF8C00] to-[#E11D48] hover:from-[#38BDF8] hover:to-[#FF8C00] text-slate-950 font-extrabold shadow-glow-cyan flex items-center justify-center space-x-2.5 transition-all active:scale-[0.98] text-xs uppercase tracking-wider"
               >
                 <FolderSearch className="w-4 h-4 stroke-[2.5]" />

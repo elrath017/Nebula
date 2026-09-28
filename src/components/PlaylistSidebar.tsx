@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { usePlayerStore } from '../state/playerStore';
 import { formatTime } from '../services/metadataParser';
-import { filterAndProcessMediaFiles } from '../services/fileLoader';
+import { filterAndProcessMediaFiles, pickDirectoryWithFileSystemAPI } from '../services/fileLoader';
 import { exportM3U, parseM3U } from '../services/m3uParser';
 
 export const PlaylistSidebar: React.FC = () => {
@@ -60,6 +60,20 @@ export const PlaylistSidebar: React.FC = () => {
     } else {
       setPlaylist(mediaItems);
       showToast(`Loaded ${mediaItems.length} video & music track(s) from folder`);
+    }
+  };
+
+  const handleTriggerFolder = async () => {
+    const result = await pickDirectoryWithFileSystemAPI();
+    if (result.status === 'success') {
+      if (result.items.length === 0) {
+        showToast('No video or music files found in selected folder');
+      } else {
+        setPlaylist(result.items);
+        showToast(`Loaded ${result.items.length} video & music track(s) from folder`);
+      }
+    } else if (result.status === 'unsupported') {
+      folderInputRef.current?.click();
     }
   };
 
@@ -156,7 +170,7 @@ export const PlaylistSidebar: React.FC = () => {
             <Plus className="w-4 h-4" />
           </button>
           <button
-            onClick={() => folderInputRef.current?.click()}
+            onClick={handleTriggerFolder}
             title="Open Folder (Select Video & Music Folder)"
             className="p-1.5 rounded hover:bg-slate-800 text-slate-300 hover:text-nebula-red transition-colors"
           >
@@ -216,7 +230,7 @@ export const PlaylistSidebar: React.FC = () => {
           <div className="p-6 text-center text-slate-500 space-y-3">
             <p className="text-xs">No media in playlist queue</p>
             <button
-              onClick={() => folderInputRef.current?.click()}
+              onClick={handleTriggerFolder}
               className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-nebula-red/20 to-nebula-blue/20 border border-nebula-red/40 text-nebula-red hover:text-white hover:bg-nebula-red transition-all text-xs font-semibold inline-flex items-center space-x-2 shadow-glow-red"
             >
               <FolderSearch className="w-4 h-4 text-nebula-red" />

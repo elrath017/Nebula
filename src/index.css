@@ -4,28 +4,28 @@
 
 @layer base {
   body {
-    background-color: #090A16;
+    background-color: #0A0D18;
     @apply text-slate-100 font-sans h-screen w-screen overflow-hidden;
   }
 }
 
-/* Custom Orion Nebula Scrollbars */
+/* Custom Cosmic Nebula Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(9, 10, 22, 0.9);
+  background: rgba(10, 13, 24, 0.9);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(40, 44, 79, 0.8);
+  background: rgba(40, 50, 86, 0.8);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #E62B70 0%, #8B5CF6 50%, #38BDF8 100%);
+  background: linear-gradient(180deg, #00E5FF 0%, #FF8C00 50%, #E11D48 100%);
 }
 
 /* Custom Range Input Styling for Scrubber & Volume */
@@ -34,7 +34,7 @@ input[type="range"] {
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  @apply appearance-none w-3.5 h-3.5 bg-[#E62B70] rounded-full shadow-glow-red scale-0 hover:scale-125 transition-all duration-150 ease-out;
+  @apply appearance-none w-3.5 h-3.5 bg-[#00E5FF] rounded-full shadow-glow-cyan scale-0 hover:scale-125 transition-all duration-150 ease-out;
 }
 
 div:hover > input[type="range"]::-webkit-slider-thumb,

@@ -1,0 +1,24 @@
+import { KeyBinding } from '../types/media';
+
+export const VLC_KEYBINDINGS: KeyBinding[] = [
+  { key: 'Space', description: 'Play / Pause playback', category: 'Playback', actionName: 'Toggle Play/Pause' },
+  { key: 'S', description: 'Stop playback completely', category: 'Playback', actionName: 'Stop' },
+  { key: 'E', description: 'Advance video frame-by-frame', category: 'Playback', actionName: 'Frame Advance' },
+  { key: '[', description: 'Decrease playback speed by 0.25x', category: 'Playback', actionName: 'Slower' },
+  { key: ']', description: 'Increase playback speed by 0.25x', category: 'Playback', actionName: 'Faster' },
+  { key: '=', description: 'Reset playback speed to 1.0x', category: 'Playback', actionName: 'Normal Speed' },
+  { key: 'F', description: 'Toggle full-screen view mode', category: 'Audio & Video', actionName: 'Toggle Fullscreen' },
+  { key: 'M', description: 'Mute or unmute audio', category: 'Audio & Video', actionName: 'Toggle Mute' },
+  { key: 'ArrowUp', description: 'Increase volume (+5%)', category: 'Audio & Video', actionName: 'Volume Up' },
+  { key: 'ArrowDown', description: 'Decrease volume (-5%)', category: 'Audio & Video', actionName: 'Volume Down' },
+  { key: 'G', description: 'Decrease Audio Sync Delay (-50 ms)', category: 'Audio & Video', actionName: 'Audio Delay -' },
+  { key: 'H', description: 'Increase Audio Sync Delay (+50 ms)', category: 'Audio & Video', actionName: 'Audio Delay +' },
+  { key: 'ArrowLeft', description: 'Jump backward 5 seconds', category: 'Navigation', actionName: 'Seek -5s' },
+  { key: 'ArrowRight', description: 'Jump forward 5 seconds', category: 'Navigation', actionName: 'Seek +5s' },
+  { key: 'N', description: 'Play next item in playlist', category: 'Navigation', actionName: 'Next Track' },
+  { key: 'P', description: 'Play previous item in playlist', category: 'Navigation', actionName: 'Previous Track' },
+  { key: 'J', description: 'Decrease Subtitle Delay (-50 ms)', category: 'Subtitles', actionName: 'Subtitle Delay -' },
+  { key: 'K', description: 'Increase Subtitle Delay (+50 ms)', category: 'Subtitles', actionName: 'Subtitle Delay +' },
+  { key: 'V', description: 'Cycle through available subtitle tracks', category: 'Subtitles', actionName: 'Next Subtitle Track' },
+  { key: 'A', description: 'Cycle aspect ratios (Auto, 16:9, 4:3, 21:9, Fill)', category: 'Audio & Video', actionName: 'Aspect Ratio' },
+];

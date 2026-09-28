@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { VisualizerMode } from '../types/media';
-import { Atom } from 'lucide-react';
+import { NebulaAppIcon } from './NebulaAppIcon';
 
 interface VisualizerProps {
   analyserNode: AnalyserNode | null;
@@ -154,11 +154,7 @@ export const AudioVisualizer: React.FC<VisualizerProps> = ({
 
       {/* Track Overlay Info in middle of visualizer */}
       <div className="relative z-10 text-center px-6 pointer-events-none">
-        <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-tr from-nebula-red via-purple-600 to-nebula-blue flex items-center justify-center shadow-glow-red animate-pulse-subtle p-0.5">
-          <div className="w-full h-full bg-nebula-dark rounded-full flex items-center justify-center">
-            <Atom className="w-12 h-12 text-nebula-blue animate-spin-slow" />
-          </div>
-        </div>
+        <NebulaAppIcon className="w-20 h-20 mx-auto mb-4 shadow-glow-cyan drop-shadow-2xl animate-pulse-subtle" />
         <h2 className="text-xl font-bold text-slate-100 tracking-wide mb-1 drop-shadow-md">
           {trackTitle || 'Audio Track'}
         </h2>

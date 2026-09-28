@@ -8,14 +8,14 @@ import {
   Info, 
   HelpCircle, 
   FileCode,
-  Sparkles,
-  Atom
+  Sparkles
 } from 'lucide-react';
 import { usePlayerStore } from '../state/playerStore';
 import { createMediaItemFromFile } from '../services/metadataParser';
 import { filterAndProcessMediaFiles } from '../services/fileLoader';
 import { parseSubtitleContent } from '../hooks/useSubtitleParser';
 import { exportM3U } from '../services/m3uParser';
+import { NebulaAppIcon } from './NebulaAppIcon';
 
 export const Header: React.FC = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -146,11 +146,9 @@ export const Header: React.FC = () => {
       <div className="flex items-center space-x-1" ref={menuRef}>
         {/* Nebula Logo */}
         <div className="flex items-center space-x-2 mr-3 pr-3 border-r border-nebula-border">
-          <div className="w-5 h-5 bg-gradient-to-tr from-nebula-red via-purple-600 to-nebula-blue rounded flex items-center justify-center shadow-glow-red">
-            <Atom className="w-3.5 h-3.5 text-slate-950 font-bold animate-spin-slow" />
-          </div>
+          <NebulaAppIcon className="w-5 h-5 drop-shadow-md" />
           <span className="font-extrabold text-slate-100 tracking-wide text-sm hidden sm:inline">
-            Nebula<span className="text-nebula-red">.js</span>
+            Nebula<span className="text-[#00E5FF]">.js</span>
           </span>
         </div>
 

@@ -2,9 +2,10 @@ import React, { useState, useRef } from 'react';
 import { usePlayerStore } from '../state/playerStore';
 import { AudioVisualizer } from './AudioVisualizer';
 import { SubtitleOverlay } from './SubtitleOverlay';
-import { UploadCloud, Play, FolderSearch, FileVideo, Atom, Sparkles } from 'lucide-react';
+import { UploadCloud, Play, FolderSearch, FileVideo, Sparkles } from 'lucide-react';
 import { scanDroppedDirectoryItems, filterAndProcessMediaFiles } from '../services/fileLoader';
 import { createMediaItemFromFile } from '../services/metadataParser';
+import { NebulaAppIcon } from './NebulaAppIcon';
 
 interface VideoViewportProps {
   videoRef: React.RefObject<HTMLVideoElement>;
@@ -204,12 +205,8 @@ export const VideoViewport: React.FC<VideoViewportProps> = ({
           <div className="absolute -bottom-24 -right-24 w-[32rem] h-[32rem] rounded-full bg-[#E11D48]/20 blur-[150px] pointer-events-none" />
 
           <div className="max-w-md w-full bg-[#12172A]/85 border border-[#283256] rounded-3xl p-8 shadow-2xl backdrop-blur-xl flex flex-col items-center text-center space-y-6 animate-in fade-in zoom-in-95 duration-200 relative z-10">
-            {/* Celestial Core Orb Icon */}
-            <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-[#00E5FF] via-[#FF8C00] to-[#E11D48] p-0.5 shadow-glow-cyan flex items-center justify-center transform hover:scale-105 transition-transform duration-300">
-              <div className="w-full h-full bg-[#0A0D18] rounded-full flex items-center justify-center">
-                <Atom className="w-14 h-14 text-[#00E5FF] animate-spin-slow" />
-              </div>
-            </div>
+            {/* Celestial App Icon */}
+            <NebulaAppIcon className="w-24 h-24 shadow-glow-cyan transform hover:scale-105 transition-transform duration-300 drop-shadow-2xl" />
 
             <div>
               <div className="flex items-center justify-center space-x-2 mb-1">

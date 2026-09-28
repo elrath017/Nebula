@@ -246,6 +246,7 @@ export const PlaylistSidebar: React.FC = () => {
               <div
                 key={item.id}
                 onClick={() => selectTrack(originalIndex)}
+                title={item.artist ? `${item.title} (${item.artist})` : item.title}
                 className={`group px-3 py-2 flex items-center justify-between cursor-pointer transition-colors text-xs ${
                   isCurrent
                     ? 'bg-nebula-red/15 border-l-2 border-nebula-red text-slate-100 font-medium'
@@ -267,14 +268,17 @@ export const PlaylistSidebar: React.FC = () => {
                   </div>
 
                   <div className="overflow-hidden flex-1">
-                    <p className={`truncate ${isCurrent ? 'text-nebula-red font-bold' : 'text-slate-200'}`}>
+                    <p 
+                      title={item.title}
+                      className={`truncate ${isCurrent ? 'text-nebula-red font-bold' : 'text-slate-200'}`}
+                    >
                       {item.title}
                     </p>
                     <div className="flex items-center space-x-2 text-[10px] text-slate-500">
                       <span className="bg-slate-900 border border-slate-800 px-1 rounded font-mono text-[9px] text-nebula-blue font-semibold">
                         {item.format}
                       </span>
-                      {item.artist && <span className="truncate">{item.artist}</span>}
+                      {item.artist && <span className="truncate" title={item.artist}>{item.artist}</span>}
                     </div>
                   </div>
                 </div>

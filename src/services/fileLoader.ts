@@ -21,11 +21,19 @@ export function isMediaFile(file: File): boolean {
 
 /**
  * Filters a list of files to keep ONLY supported video and music tracks,
- * then generates MediaItems for each media file found in the selected folder/files.
+ * then sorts them in natural alphanumeric order (e.g. Ep 1, Ep 2, Ep 10)
+ * and generates MediaItems for each media file found in the selected folder/files.
  */
 export async function filterAndProcessMediaFiles(files: FileList | File[]): Promise<MediaItem[]> {
   const fileArray = Array.from(files);
   const mediaFiles = fileArray.filter((file) => isMediaFile(file));
+
+  // Natural alphanumeric sort matching OS folder order (1, 2, ... 10)
+  mediaFiles.sort((a, b) => {
+    const pathA = a.webkitRelativePath || a.name;
+    const pathB = b.webkitRelativePath || b.name;
+    return pathA.localeCompare(pathB, undefined, { numeric: true, sensitivity: 'base' });
+  });
 
   const items: MediaItem[] = [];
   for (const file of mediaFiles) {
@@ -51,16 +59,26 @@ export async function pickDirectoryWithFileSystemAPI(): Promise<PickDirectoryRes
       const dirHandle = await window.showDirectoryPicker();
       const files: File[] = [];
 
-      // Recursive scanner helper
+      // Recursive scanner helper with natural sorting
       const scanDir = async (handle: FileSystemDirectoryHandle) => {
+        const entries: FileSystemHandle[] = [];
         // @ts-expect-error values iterator
         for await (const entry of handle.values()) {
+          entries.push(entry);
+        }
+
+        // Sort handles in natural order before scanning
+        entries.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }));
+
+        for (const entry of entries) {
           if (entry.kind === 'file') {
+            // @ts-expect-error FileSystemFileHandle getFile
             const file = await entry.getFile();
             if (isMediaFile(file)) {
               files.push(file);
             }
           } else if (entry.kind === 'directory') {
+            // @ts-expect-error FileSystemDirectoryHandle
             await scanDir(entry);
           }
         }

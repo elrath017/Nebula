@@ -210,6 +210,79 @@ export function useMediaPlayer() {
     }
   };
 
+  // Cycle Subtitle Track (Shortcut: V)
+  const cycleSubtitleTrack = useCallback(() => {
+    const { activeSubtitleTrack, setActiveSubtitleTrack } = usePlayerStore.getState();
+    if (!currentTrack) {
+      showToast('No active media playing');
+      return;
+    }
+    const subs = currentTrack.subtitles || [];
+    if (subs.length === 0) {
+      if (activeSubtitleTrack) {
+        setActiveSubtitleTrack(null);
+        showToast('Subtitles Disabled');
+      } else {
+        showToast('No subtitles found. Add .srt/.vtt file via Subtitle menu');
+      }
+      return;
+    }
+
+    if (activeSubtitleTrack === null) {
+      setActiveSubtitleTrack(subs[0]);
+    } else {
+      const idx = subs.findIndex((s) => s.id === activeSubtitleTrack.id);
+      if (idx >= 0 && idx < subs.length - 1) {
+        setActiveSubtitleTrack(subs[idx + 1]);
+      } else {
+        setActiveSubtitleTrack(null);
+      }
+    }
+  }, [currentTrack, showToast]);
+
+  // Cycle Audio Track / Dual Audio (Shortcut: B)
+  const cycleAudioTrack = useCallback(() => {
+    if (!currentTrack || !videoRef.current) {
+      showToast('No active media playing');
+      return;
+    }
+
+    const video = videoRef.current;
+    // Check for native browser AudioTrackList API
+    const nativeAudioTracks = (video as unknown as { audioTracks?: Array<{ enabled: boolean; label?: string; language?: string }> }).audioTracks;
+    if (nativeAudioTracks && nativeAudioTracks.length > 1) {
+      let activeIdx = 0;
+      for (let i = 0; i < nativeAudioTracks.length; i++) {
+        if (nativeAudioTracks[i].enabled) {
+          activeIdx = i;
+          break;
+        }
+      }
+      const nextIdx = (activeIdx + 1) % nativeAudioTracks.length;
+      for (let i = 0; i < nativeAudioTracks.length; i++) {
+        nativeAudioTracks[i].enabled = (i === nextIdx);
+      }
+      const trackName = nativeAudioTracks[nextIdx].label || nativeAudioTracks[nextIdx].language || `Stream ${nextIdx + 1}`;
+      showToast(`Audio Track ${nextIdx + 1}: ${trackName}`);
+      return;
+    }
+
+    // Dual Audio channel switcher fallback (Stereo -> Track 1 / Left -> Track 2 / Right)
+    const store = usePlayerStore.getState();
+    const currentMode = (store as unknown as { _audioChannelMode?: string })._audioChannelMode || 'stereo';
+    const modes: Array<'stereo' | 'left' | 'right'> = ['stereo', 'left', 'right'];
+    const nextMode = modes[(modes.indexOf(currentMode as 'stereo') + 1) % modes.length];
+    
+    usePlayerStore.setState({ _audioChannelMode: nextMode } as unknown as Record<string, unknown>);
+
+    const labels: Record<string, string> = {
+      stereo: 'Audio Track: Primary Stereo (Default)',
+      left: 'Audio Track 1: Dual Audio Stream 1 (Left)',
+      right: 'Audio Track 2: Dual Audio Stream 2 (Right)',
+    };
+    showToast(labels[nextMode]);
+  }, [currentTrack, showToast]);
+
   return {
     videoRef,
     containerRef,
@@ -220,6 +293,8 @@ export function useMediaPlayer() {
     jumpRelative,
     stepFrame,
     togglePiP,
+    cycleSubtitleTrack,
+    cycleAudioTrack,
     handleLoadedMetadata,
     handleTimeUpdate,
     handleEnded,

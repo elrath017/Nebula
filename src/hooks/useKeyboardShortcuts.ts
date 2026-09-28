@@ -7,6 +7,8 @@ interface ShortcutsProps {
   stopPlayback: () => void;
   jumpRelative: (sec: number) => void;
   stepFrame: () => void;
+  cycleSubtitleTrack?: () => void;
+  cycleAudioTrack?: () => void;
 }
 
 export function useKeyboardShortcuts({
@@ -14,6 +16,8 @@ export function useKeyboardShortcuts({
   stopPlayback,
   jumpRelative,
   stepFrame,
+  cycleSubtitleTrack,
+  cycleAudioTrack,
 }: ShortcutsProps) {
   const {
     volume,
@@ -134,6 +138,16 @@ export function useKeyboardShortcuts({
           adjustSubtitleDelayMs(50);
           break;
 
+        case 'KeyV':
+          e.preventDefault();
+          if (cycleSubtitleTrack) cycleSubtitleTrack();
+          break;
+
+        case 'KeyB':
+          e.preventDefault();
+          if (cycleAudioTrack) cycleAudioTrack();
+          break;
+
         case 'KeyG':
           e.preventDefault();
           adjustAudioDelayMs(-50);
@@ -174,6 +188,8 @@ export function useKeyboardShortcuts({
     stopPlayback,
     jumpRelative,
     stepFrame,
+    cycleSubtitleTrack,
+    cycleAudioTrack,
     volume,
     setVolume,
     toggleMute,

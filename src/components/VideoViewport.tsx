@@ -27,6 +27,7 @@ export const VideoViewport: React.FC<VideoViewportProps> = ({
   handleLoadedMetadata,
   handleTimeUpdate,
   handleEnded,
+  isControlsVisible,
   onMouseMove,
 }) => {
   const [isDragOver, setIsDragOver] = useState(false);
@@ -169,7 +170,7 @@ export const VideoViewport: React.FC<VideoViewportProps> = ({
       onDrop={handleDrop}
       className={`relative flex-1 bg-black flex items-center justify-center overflow-hidden select-none ${
         isFullscreen ? 'w-screen h-screen' : 'w-full h-full'
-      }`}
+      } ${!isControlsVisible ? 'cursor-none' : ''}`}
     >
       {/* Hidden File & Folder Inputs for Home Screen */}
       <input
@@ -275,7 +276,9 @@ export const VideoViewport: React.FC<VideoViewportProps> = ({
         <div
           onClick={togglePlay}
           onDoubleClick={handleDoubleClick}
-          className="relative w-full h-full flex items-center justify-center cursor-pointer group"
+          className={`relative w-full h-full flex items-center justify-center group ${
+            !isControlsVisible ? 'cursor-none' : 'cursor-pointer'
+          }`}
         >
           <video
             ref={videoRef}
@@ -283,7 +286,9 @@ export const VideoViewport: React.FC<VideoViewportProps> = ({
             onTimeUpdate={handleTimeUpdate}
             onEnded={handleEnded}
             style={getAspectRatioStyle()}
-            className="max-w-full max-h-full transition-all duration-200"
+            className={`max-w-full max-h-full transition-all duration-200 ${
+              !isControlsVisible ? 'cursor-none' : 'cursor-pointer'
+            }`}
             playsInline
           />
 

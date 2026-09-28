@@ -34,6 +34,8 @@ export const App: React.FC = () => {
     jumpRelative,
     stepFrame,
     togglePiP,
+    cycleSubtitleTrack,
+    cycleAudioTrack,
     handleLoadedMetadata,
     handleTimeUpdate,
     handleEnded,
@@ -48,6 +50,8 @@ export const App: React.FC = () => {
     stopPlayback,
     jumpRelative,
     stepFrame,
+    cycleSubtitleTrack,
+    cycleAudioTrack,
   });
 
   // Auto-hide player controls during video playback after 3 seconds of mouse stillness

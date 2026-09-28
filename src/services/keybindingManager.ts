@@ -20,5 +20,6 @@ export const VLC_KEYBINDINGS: KeyBinding[] = [
   { key: 'J', description: 'Decrease Subtitle Delay (-50 ms)', category: 'Subtitles', actionName: 'Subtitle Delay -' },
   { key: 'K', description: 'Increase Subtitle Delay (+50 ms)', category: 'Subtitles', actionName: 'Subtitle Delay +' },
   { key: 'V', description: 'Cycle through available subtitle tracks', category: 'Subtitles', actionName: 'Next Subtitle Track' },
+  { key: 'B', description: 'Switch / Cycle audio track & dual audio streams', category: 'Audio & Video', actionName: 'Next Audio Track' },
   { key: 'A', description: 'Cycle aspect ratios (Auto, 16:9, 4:3, 21:9, Fill)', category: 'Audio & Video', actionName: 'Aspect Ratio' },
 ];

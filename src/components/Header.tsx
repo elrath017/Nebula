@@ -228,7 +228,19 @@ export const Header: React.FC = () => {
             Audio
           </button>
           {activeMenu === 'audio' && (
-            <div className="absolute top-full left-0 mt-1 w-56 bg-nebula-panel border border-nebula-border rounded-lg shadow-2xl py-1 z-50 text-slate-200">
+            <div className="absolute top-full left-0 mt-1 w-64 bg-nebula-panel border border-nebula-border rounded-lg shadow-2xl py-1 z-50 text-slate-200">
+              <button
+                onClick={() => {
+                  const evt = new KeyboardEvent('keydown', { code: 'KeyB', key: 'b' });
+                  window.dispatchEvent(evt);
+                  setActiveMenu(null);
+                }}
+                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-nebula-red/20 hover:text-nebula-red"
+              >
+                <Sliders className="w-4 h-4 text-nebula-blue" />
+                <span className="flex-1">Switch Audio Track / Dual Audio</span>
+                <span className="text-[10px] text-slate-500 font-mono">B</span>
+              </button>
               <button
                 onClick={() => {
                   setActiveModal('equalizer');
@@ -296,7 +308,19 @@ export const Header: React.FC = () => {
             Subtitle
           </button>
           {activeMenu === 'sub' && (
-            <div className="absolute top-full left-0 mt-1 w-56 bg-nebula-panel border border-nebula-border rounded-lg shadow-2xl py-1 z-50 text-slate-200">
+            <div className="absolute top-full left-0 mt-1 w-64 bg-nebula-panel border border-nebula-border rounded-lg shadow-2xl py-1 z-50 text-slate-200">
+              <button
+                onClick={() => {
+                  const evt = new KeyboardEvent('keydown', { code: 'KeyV', key: 'v' });
+                  window.dispatchEvent(evt);
+                  setActiveMenu(null);
+                }}
+                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-nebula-red/20 hover:text-nebula-red"
+              >
+                <SubIcon className="w-4 h-4 text-nebula-red" />
+                <span className="flex-1">Switch / Cycle Subtitle Track</span>
+                <span className="text-[10px] text-slate-500 font-mono">V</span>
+              </button>
               <button
                 onClick={() => subtitleInputRef.current?.click()}
                 className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-nebula-red/20 hover:text-nebula-red"

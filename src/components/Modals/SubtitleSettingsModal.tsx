@@ -19,24 +19,24 @@ export const SubtitleSettingsModal: React.FC = () => {
     { label: 'White', value: '#FFFFFF' },
     { label: 'Yellow', value: '#FFFF00' },
     { label: 'Cyan', value: '#00FFFF' },
-    { label: 'Green', value: '#00FF00' },
+    { label: 'Crimson Red', value: '#FF1744' },
   ];
 
   const bgOptions = [
-    { label: 'Dark Semi-transparent', value: 'rgba(0, 0, 0, 0.75)' },
-    { label: 'Solid Black', value: 'rgba(0, 0, 0, 1)' },
-    { label: 'Light Box', value: 'rgba(30, 41, 59, 0.85)' },
+    { label: 'Dark Semi-transparent', value: 'rgba(11, 13, 25, 0.85)' },
+    { label: 'Solid Space Void', value: 'rgba(0, 0, 0, 1)' },
+    { label: 'Cosmic Box', value: 'rgba(38, 43, 72, 0.9)' },
     { label: 'Transparent Text Shadow Only', value: 'transparent' },
   ];
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 select-none">
-      <div className="bg-vlc-panel border border-vlc-border rounded-xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col text-slate-200 animate-in fade-in zoom-in-95 duration-150">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 select-none">
+      <div className="bg-nebula-panel border border-nebula-border rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col text-slate-200 animate-in fade-in zoom-in-95 duration-150">
         {/* Modal Header */}
-        <div className="px-5 py-3 border-b border-vlc-border flex items-center justify-between bg-vlc-dark/50">
+        <div className="px-5 py-3.5 border-b border-nebula-border flex items-center justify-between bg-nebula-dark/70">
           <div className="flex items-center space-x-2">
-            <Subtitles className="w-5 h-5 text-vlc-orange" />
-            <h3 className="font-bold text-sm tracking-wide">Subtitle Settings & Synchronization</h3>
+            <Subtitles className="w-5 h-5 text-nebula-red" />
+            <h3 className="font-bold text-sm tracking-wide text-slate-100">Subtitle Settings & Sync</h3>
           </div>
           <button
             onClick={() => setActiveModal(null)}
@@ -51,7 +51,7 @@ export const SubtitleSettingsModal: React.FC = () => {
           {/* Subtitle Track Selector */}
           <div className="space-y-1.5">
             <label className="text-slate-300 font-semibold flex items-center space-x-2">
-              <Subtitles className="w-4 h-4 text-vlc-orange" />
+              <Subtitles className="w-4 h-4 text-nebula-blue" />
               <span>Active Subtitle Stream:</span>
             </label>
             <select
@@ -60,7 +60,7 @@ export const SubtitleSettingsModal: React.FC = () => {
                 const track = currentTrack?.subtitles?.find((s) => s.id === e.target.value) || null;
                 setActiveSubtitleTrack(track);
               }}
-              className="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg p-2 text-xs focus:outline-none focus:border-vlc-orange cursor-pointer"
+              className="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg p-2 text-xs focus:outline-none focus:border-nebula-red cursor-pointer"
             >
               <option value="">Disabled / Off</option>
               {currentTrack?.subtitles?.map((t) => (
@@ -72,13 +72,13 @@ export const SubtitleSettingsModal: React.FC = () => {
           </div>
 
           {/* Subtitle Timing Sync Delay */}
-          <div className="p-3 bg-vlc-dark rounded-xl border border-slate-800 space-y-2">
+          <div className="p-3 bg-nebula-dark rounded-xl border border-nebula-border space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-slate-300 font-semibold flex items-center space-x-2">
-                <Clock className="w-4 h-4 text-vlc-orange" />
+                <Clock className="w-4 h-4 text-nebula-red" />
                 <span>Subtitle Sync / Delay Adjustment:</span>
               </span>
-              <span className="font-mono text-vlc-orange font-bold text-xs">
+              <span className="font-mono text-nebula-blue font-bold text-xs">
                 {subtitleDelayMs > 0 ? `+${subtitleDelayMs}` : subtitleDelayMs} ms
               </span>
             </div>
@@ -97,7 +97,7 @@ export const SubtitleSettingsModal: React.FC = () => {
                 step="50"
                 value={subtitleDelayMs}
                 onChange={(e) => setSubtitleDelayMs(Number(e.target.value))}
-                className="flex-1 accent-vlc-orange"
+                className="flex-1 accent-nebula-red"
               />
               <button
                 onClick={() => adjustSubtitleDelayMs(50)}
@@ -109,9 +109,9 @@ export const SubtitleSettingsModal: React.FC = () => {
           </div>
 
           {/* Subtitle Styling Controls */}
-          <div className="space-y-3 p-3 bg-vlc-dark rounded-xl border border-slate-800">
+          <div className="space-y-3 p-3 bg-nebula-dark rounded-xl border border-nebula-border">
             <h4 className="font-bold text-slate-300 flex items-center space-x-2 text-xs">
-              <Type className="w-4 h-4 text-vlc-orange" />
+              <Type className="w-4 h-4 text-nebula-blue" />
               <span>Appearance & Styling</span>
             </h4>
 
@@ -119,7 +119,7 @@ export const SubtitleSettingsModal: React.FC = () => {
             <div className="space-y-1">
               <div className="flex justify-between text-slate-400 font-mono">
                 <span>Font Size:</span>
-                <span className="text-vlc-orange font-bold">{subtitleStyles.fontSize}px</span>
+                <span className="text-nebula-red font-bold">{subtitleStyles.fontSize}px</span>
               </div>
               <input
                 type="range"
@@ -127,7 +127,7 @@ export const SubtitleSettingsModal: React.FC = () => {
                 max="44"
                 value={subtitleStyles.fontSize}
                 onChange={(e) => setSubtitleStyles({ fontSize: Number(e.target.value) })}
-                className="w-full accent-vlc-orange"
+                className="w-full accent-nebula-red"
               />
             </div>
 
@@ -135,7 +135,7 @@ export const SubtitleSettingsModal: React.FC = () => {
             <div className="space-y-1">
               <div className="flex justify-between text-slate-400 font-mono">
                 <span>Vertical Position (Bottom Margin):</span>
-                <span className="text-vlc-orange font-bold">{subtitleStyles.positionBottom}%</span>
+                <span className="text-nebula-red font-bold">{subtitleStyles.positionBottom}%</span>
               </div>
               <input
                 type="range"
@@ -143,7 +143,7 @@ export const SubtitleSettingsModal: React.FC = () => {
                 max="30"
                 value={subtitleStyles.positionBottom}
                 onChange={(e) => setSubtitleStyles({ positionBottom: Number(e.target.value) })}
-                className="w-full accent-vlc-orange"
+                className="w-full accent-nebula-red"
               />
             </div>
 
@@ -157,7 +157,7 @@ export const SubtitleSettingsModal: React.FC = () => {
                     onClick={() => setSubtitleStyles({ textColor: c.value })}
                     className={`px-3 py-1 rounded border text-xs font-semibold flex items-center space-x-1.5 transition-all ${
                       subtitleStyles.textColor === c.value
-                        ? 'border-vlc-orange bg-vlc-orange/20 text-vlc-orange'
+                        ? 'border-nebula-red bg-nebula-red/20 text-nebula-red'
                         : 'border-slate-700 bg-slate-900 text-slate-300'
                     }`}
                   >
@@ -174,7 +174,7 @@ export const SubtitleSettingsModal: React.FC = () => {
               <select
                 value={subtitleStyles.bgColor}
                 onChange={(e) => setSubtitleStyles({ bgColor: e.target.value })}
-                className="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg p-2 text-xs focus:outline-none focus:border-vlc-orange cursor-pointer"
+                className="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg p-2 text-xs focus:outline-none focus:border-nebula-red cursor-pointer"
               >
                 {bgOptions.map((b) => (
                   <option key={b.value} value={b.value}>
@@ -187,10 +187,10 @@ export const SubtitleSettingsModal: React.FC = () => {
         </div>
 
         {/* Modal Footer */}
-        <div className="px-5 py-3 border-t border-vlc-border bg-vlc-dark/50 flex justify-end">
+        <div className="px-5 py-3.5 border-t border-nebula-border bg-nebula-dark/70 flex justify-end">
           <button
             onClick={() => setActiveModal(null)}
-            className="px-4 py-1.5 rounded-lg bg-vlc-orange text-slate-950 font-bold hover:bg-vlc-orange-hover transition-colors text-xs"
+            className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-nebula-red to-rose-600 text-white font-bold hover:from-rose-600 hover:to-nebula-red transition-colors text-xs shadow-glow-red"
           >
             Save & Close
           </button>

@@ -97,7 +97,7 @@ export const PlaylistSidebar: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'playlist.m3u';
+    a.download = 'nebula_playlist.m3u';
     a.click();
     URL.revokeObjectURL(url);
     showToast('Saved M3U playlist file');
@@ -110,7 +110,7 @@ export const PlaylistSidebar: React.FC = () => {
   );
 
   return (
-    <aside className="w-80 bg-vlc-panel border-l border-vlc-border flex flex-col h-full z-20 select-none">
+    <aside className="w-80 bg-nebula-panel border-l border-nebula-border flex flex-col h-full z-20 select-none">
       {/* Hidden File & Folder Inputs */}
       <input
         type="file"
@@ -139,10 +139,10 @@ export const PlaylistSidebar: React.FC = () => {
       />
 
       {/* Header Bar */}
-      <div className="p-3 border-b border-vlc-border flex items-center justify-between bg-vlc-dark/40">
-        <h3 className="font-semibold text-slate-200 text-xs tracking-wider uppercase flex items-center space-x-2">
-          <span>Playlist Queue</span>
-          <span className="bg-vlc-orange/20 text-vlc-orange px-2 py-0.5 rounded-full text-[10px] font-mono font-bold">
+      <div className="p-3 border-b border-nebula-border flex items-center justify-between bg-nebula-dark/60">
+        <h3 className="font-bold text-slate-200 text-xs tracking-wider uppercase flex items-center space-x-2">
+          <span>Nebula Queue</span>
+          <span className="bg-nebula-red/20 text-nebula-red px-2 py-0.5 rounded-full text-[10px] font-mono font-bold border border-nebula-red/30">
             {playlist.length}
           </span>
         </h3>
@@ -151,21 +151,21 @@ export const PlaylistSidebar: React.FC = () => {
           <button
             onClick={() => fileInputRef.current?.click()}
             title="Add Media Files"
-            className="p-1.5 rounded hover:bg-slate-800 text-slate-300 hover:text-vlc-orange transition-colors"
+            className="p-1.5 rounded hover:bg-slate-800 text-slate-300 hover:text-nebula-blue transition-colors"
           >
             <Plus className="w-4 h-4" />
           </button>
           <button
             onClick={() => folderInputRef.current?.click()}
             title="Open Folder (Select Video & Music Folder)"
-            className="p-1.5 rounded hover:bg-slate-800 text-slate-300 hover:text-vlc-orange transition-colors"
+            className="p-1.5 rounded hover:bg-slate-800 text-slate-300 hover:text-nebula-red transition-colors"
           >
             <FolderSearch className="w-4 h-4" />
           </button>
           <button
             onClick={() => m3uInputRef.current?.click()}
             title="Import M3U Playlist"
-            className="p-1.5 rounded hover:bg-slate-800 text-slate-300 hover:text-vlc-orange transition-colors"
+            className="p-1.5 rounded hover:bg-slate-800 text-slate-300 hover:text-nebula-blue transition-colors"
           >
             <FileUp className="w-4 h-4" />
           </button>
@@ -173,7 +173,7 @@ export const PlaylistSidebar: React.FC = () => {
             onClick={handleExportM3U}
             disabled={playlist.length === 0}
             title="Export M3U Playlist"
-            className="p-1.5 rounded hover:bg-slate-800 text-slate-300 hover:text-vlc-orange transition-colors disabled:opacity-30"
+            className="p-1.5 rounded hover:bg-slate-800 text-slate-300 hover:text-nebula-blue transition-colors disabled:opacity-30"
           >
             <FileDown className="w-4 h-4" />
           </button>
@@ -189,7 +189,7 @@ export const PlaylistSidebar: React.FC = () => {
       </div>
 
       {/* Search Input Bar */}
-      <div className="p-2 border-b border-vlc-border/60 bg-vlc-dark/20">
+      <div className="p-2 border-b border-nebula-border/80 bg-nebula-dark/40">
         <div className="relative flex items-center">
           <Search className="w-3.5 h-3.5 absolute left-2.5 text-slate-500 pointer-events-none" />
           <input
@@ -197,7 +197,7 @@ export const PlaylistSidebar: React.FC = () => {
             placeholder="Search title, artist, or format..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-800 rounded-lg pl-8 pr-7 py-1 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-vlc-orange transition-colors"
+            className="w-full bg-slate-900 border border-slate-800 rounded-lg pl-8 pr-7 py-1 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-nebula-red transition-colors"
           />
           {searchTerm && (
             <button
@@ -217,9 +217,9 @@ export const PlaylistSidebar: React.FC = () => {
             <p className="text-xs">No media in playlist queue</p>
             <button
               onClick={() => folderInputRef.current?.click()}
-              className="px-3.5 py-2 rounded-xl bg-vlc-orange/10 border border-vlc-orange/30 text-vlc-orange hover:bg-vlc-orange/20 transition-all text-xs font-semibold inline-flex items-center space-x-2"
+              className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-nebula-red/20 to-nebula-blue/20 border border-nebula-red/40 text-nebula-red hover:text-white hover:bg-nebula-red transition-all text-xs font-semibold inline-flex items-center space-x-2 shadow-glow-red"
             >
-              <FolderSearch className="w-4 h-4" />
+              <FolderSearch className="w-4 h-4 text-nebula-red" />
               <span>Open Folder (Videos & Music)</span>
             </button>
           </div>
@@ -234,7 +234,7 @@ export const PlaylistSidebar: React.FC = () => {
                 onClick={() => selectTrack(originalIndex)}
                 className={`group px-3 py-2 flex items-center justify-between cursor-pointer transition-colors text-xs ${
                   isCurrent
-                    ? 'bg-vlc-orange/15 border-l-2 border-vlc-orange text-slate-100 font-medium'
+                    ? 'bg-nebula-red/15 border-l-2 border-nebula-red text-slate-100 font-medium'
                     : 'hover:bg-slate-800/60 text-slate-300'
                 }`}
               >
@@ -242,22 +242,22 @@ export const PlaylistSidebar: React.FC = () => {
                 <div className="flex items-center space-x-2.5 overflow-hidden flex-1 mr-2">
                   <div className="flex-shrink-0">
                     {isCurrent ? (
-                      <div className="w-5 h-5 rounded bg-vlc-orange flex items-center justify-center text-slate-950 shadow-glow-orange">
-                        <Play className="w-3 h-3 fill-slate-950" />
+                      <div className="w-5 h-5 rounded bg-gradient-to-tr from-nebula-red to-rose-500 flex items-center justify-center text-white shadow-glow-red">
+                        <Play className="w-3 h-3 fill-white" />
                       </div>
                     ) : item.type === 'video' ? (
-                      <Film className="w-4 h-4 text-slate-500 group-hover:text-vlc-orange transition-colors" />
+                      <Film className="w-4 h-4 text-nebula-blue group-hover:text-nebula-red transition-colors" />
                     ) : (
-                      <Music className="w-4 h-4 text-slate-500 group-hover:text-vlc-orange transition-colors" />
+                      <Music className="w-4 h-4 text-purple-400 group-hover:text-nebula-red transition-colors" />
                     )}
                   </div>
 
                   <div className="overflow-hidden flex-1">
-                    <p className={`truncate ${isCurrent ? 'text-vlc-orange font-semibold' : 'text-slate-200'}`}>
+                    <p className={`truncate ${isCurrent ? 'text-nebula-red font-bold' : 'text-slate-200'}`}>
                       {item.title}
                     </p>
                     <div className="flex items-center space-x-2 text-[10px] text-slate-500">
-                      <span className="bg-slate-800 px-1 rounded font-mono text-[9px] text-slate-400">
+                      <span className="bg-slate-900 border border-slate-800 px-1 rounded font-mono text-[9px] text-nebula-blue font-semibold">
                         {item.format}
                       </span>
                       {item.artist && <span className="truncate">{item.artist}</span>}
@@ -279,7 +279,7 @@ export const PlaylistSidebar: React.FC = () => {
                     }}
                     disabled={originalIndex === 0}
                     title="Move Up"
-                    className="p-1 opacity-0 group-hover:opacity-100 hover:text-vlc-orange text-slate-400 disabled:opacity-0"
+                    className="p-1 opacity-0 group-hover:opacity-100 hover:text-nebula-red text-slate-400 disabled:opacity-0"
                   >
                     <ArrowUp className="w-3 h-3" />
                   </button>
@@ -290,7 +290,7 @@ export const PlaylistSidebar: React.FC = () => {
                     }}
                     disabled={originalIndex === playlist.length - 1}
                     title="Move Down"
-                    className="p-1 opacity-0 group-hover:opacity-100 hover:text-vlc-orange text-slate-400 disabled:opacity-0"
+                    className="p-1 opacity-0 group-hover:opacity-100 hover:text-nebula-red text-slate-400 disabled:opacity-0"
                   >
                     <ArrowDown className="w-3 h-3" />
                   </button>
@@ -314,16 +314,16 @@ export const PlaylistSidebar: React.FC = () => {
       </div>
 
       {/* Footer Info Box */}
-      <div className="p-3 border-t border-vlc-border bg-vlc-dark/40 text-[11px] text-slate-400 flex items-center justify-between">
+      <div className="p-3 border-t border-nebula-border bg-nebula-dark/60 text-[11px] text-slate-400 flex items-center justify-between">
         <button
           onClick={() => setActiveModal('mediaInfo')}
           disabled={!playlist[currentIndex]}
-          className="hover:text-vlc-orange transition-colors flex items-center space-x-1.5 disabled:opacity-40"
+          className="hover:text-nebula-red transition-colors flex items-center space-x-1.5 disabled:opacity-40"
         >
-          <Info className="w-3.5 h-3.5 text-vlc-orange" />
+          <Info className="w-3.5 h-3.5 text-nebula-red" />
           <span>Media Codec Info</span>
         </button>
-        <span className="font-mono text-[10px] text-slate-500">VLC Engine v3.0</span>
+        <span className="font-mono text-[10px] text-nebula-blue font-bold">Nebula Engine</span>
       </div>
     </aside>
   );

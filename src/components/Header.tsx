@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
-  Film, 
   FolderOpen, 
   FolderSearch,
   ListMusic, 
@@ -9,7 +8,8 @@ import {
   Info, 
   HelpCircle, 
   FileCode,
-  Sparkles
+  Sparkles,
+  Atom
 } from 'lucide-react';
 import { usePlayerStore } from '../state/playerStore';
 import { createMediaItemFromFile } from '../services/metadataParser';
@@ -106,7 +106,7 @@ export const Header: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'vlc_playlist.m3u';
+    a.download = 'nebula_playlist.m3u';
     a.click();
     URL.revokeObjectURL(url);
     showToast('Exported playlist to M3U file');
@@ -114,7 +114,7 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-vlc-dark/95 backdrop-blur border-b border-vlc-border h-10 flex items-center justify-between px-3 z-40 select-none text-xs">
+    <header className="bg-nebula-dark/95 backdrop-blur border-b border-nebula-border h-10 flex items-center justify-between px-3 z-40 select-none text-xs">
       {/* Hidden File & Folder Inputs */}
       <input
         type="file"
@@ -144,13 +144,13 @@ export const Header: React.FC = () => {
 
       {/* Brand & Menu Bar */}
       <div className="flex items-center space-x-1" ref={menuRef}>
-        {/* VLC Logo / Cone */}
-        <div className="flex items-center space-x-2 mr-3 pr-3 border-r border-slate-700">
-          <div className="w-5 h-5 bg-gradient-to-tr from-vlc-orange to-yellow-400 rounded flex items-center justify-center shadow-glow-orange">
-            <Film className="w-3.5 h-3.5 text-slate-950 font-bold" />
+        {/* Nebula Logo */}
+        <div className="flex items-center space-x-2 mr-3 pr-3 border-r border-nebula-border">
+          <div className="w-5 h-5 bg-gradient-to-tr from-nebula-red via-purple-600 to-nebula-blue rounded flex items-center justify-center shadow-glow-red">
+            <Atom className="w-3.5 h-3.5 text-slate-950 font-bold animate-spin-slow" />
           </div>
-          <span className="font-semibold text-slate-200 tracking-wide text-sm hidden sm:inline">
-            VLC<span className="text-vlc-orange">.js</span>
+          <span className="font-extrabold text-slate-100 tracking-wide text-sm hidden sm:inline">
+            Nebula<span className="text-nebula-red">.js</span>
           </span>
         </div>
 
@@ -160,43 +160,43 @@ export const Header: React.FC = () => {
           <button
             onClick={() => setActiveMenu(activeMenu === 'media' ? null : 'media')}
             className={`px-2.5 py-1 rounded transition-colors hover:bg-slate-800 ${
-              activeMenu === 'media' ? 'bg-slate-800 text-vlc-orange' : 'text-slate-300'
+              activeMenu === 'media' ? 'bg-slate-800 text-nebula-red' : 'text-slate-300'
             }`}
           >
             Media
           </button>
           {activeMenu === 'media' && (
-            <div className="absolute top-full left-0 mt-1 w-60 bg-vlc-panel border border-vlc-border rounded-lg shadow-2xl py-1 z-50 text-slate-200">
+            <div className="absolute top-full left-0 mt-1 w-60 bg-nebula-panel border border-nebula-border rounded-lg shadow-2xl py-1 z-50 text-slate-200">
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-vlc-orange/20 hover:text-vlc-orange"
+                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-nebula-red/20 hover:text-nebula-red"
               >
-                <FolderOpen className="w-4 h-4" />
+                <FolderOpen className="w-4 h-4 text-nebula-blue" />
                 <span className="flex-1">Open File(s)...</span>
                 <span className="text-[10px] text-slate-500 font-mono">Ctrl+O</span>
               </button>
               <button
                 onClick={() => folderInputRef.current?.click()}
-                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-vlc-orange/20 hover:text-vlc-orange"
+                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-nebula-red/20 hover:text-nebula-red"
               >
-                <FolderSearch className="w-4 h-4" />
+                <FolderSearch className="w-4 h-4 text-nebula-red" />
                 <span className="flex-1">Open Folder (Videos & Music)...</span>
                 <span className="text-[10px] text-slate-500 font-mono">Ctrl+F</span>
               </button>
               <button
                 onClick={() => handleExportPlaylist()}
-                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-vlc-orange/20 hover:text-vlc-orange"
+                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-nebula-red/20 hover:text-nebula-red"
               >
-                <FileCode className="w-4 h-4" />
+                <FileCode className="w-4 h-4 text-purple-400" />
                 <span className="flex-1">Save Playlist to File...</span>
               </button>
-              <div className="my-1 border-t border-slate-800" />
+              <div className="my-1 border-t border-nebula-border" />
               <button
                 onClick={() => setActiveModal('mediaInfo')}
                 disabled={!currentTrack}
-                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-vlc-orange/20 hover:text-vlc-orange disabled:opacity-40"
+                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-nebula-red/20 hover:text-nebula-red disabled:opacity-40"
               >
-                <Info className="w-4 h-4" />
+                <Info className="w-4 h-4 text-nebula-blue" />
                 <span className="flex-1">Media Information...</span>
                 <span className="text-[10px] text-slate-500 font-mono">Ctrl+I</span>
               </button>
@@ -209,30 +209,30 @@ export const Header: React.FC = () => {
           <button
             onClick={() => setActiveMenu(activeMenu === 'audio' ? null : 'audio')}
             className={`px-2.5 py-1 rounded transition-colors hover:bg-slate-800 ${
-              activeMenu === 'audio' ? 'bg-slate-800 text-vlc-orange' : 'text-slate-300'
+              activeMenu === 'audio' ? 'bg-slate-800 text-nebula-red' : 'text-slate-300'
             }`}
           >
             Audio
           </button>
           {activeMenu === 'audio' && (
-            <div className="absolute top-full left-0 mt-1 w-56 bg-vlc-panel border border-vlc-border rounded-lg shadow-2xl py-1 z-50 text-slate-200">
+            <div className="absolute top-full left-0 mt-1 w-56 bg-nebula-panel border border-nebula-border rounded-lg shadow-2xl py-1 z-50 text-slate-200">
               <button
                 onClick={() => {
                   setActiveModal('equalizer');
                   setActiveMenu(null);
                 }}
-                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-vlc-orange/20 hover:text-vlc-orange"
+                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-nebula-red/20 hover:text-nebula-red"
               >
-                <Sliders className="w-4 h-4" />
+                <Sliders className="w-4 h-4 text-nebula-red" />
                 <span>Audio Equalizer (10 Band)</span>
               </button>
-              <div className="my-1 border-t border-slate-800" />
+              <div className="my-1 border-t border-nebula-border" />
               <div className="px-3 py-1 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
                 Audio Boost Limit
               </div>
               <div className="px-3 py-1 text-[11px] text-slate-400 flex items-center justify-between">
                 <span>Soft Limiter Compression</span>
-                <span className="text-emerald-400 font-mono">ACTIVE (200%)</span>
+                <span className="text-nebula-blue font-mono">ACTIVE (200%)</span>
               </div>
             </div>
           )}
@@ -243,13 +243,13 @@ export const Header: React.FC = () => {
           <button
             onClick={() => setActiveMenu(activeMenu === 'video' ? null : 'video')}
             className={`px-2.5 py-1 rounded transition-colors hover:bg-slate-800 ${
-              activeMenu === 'video' ? 'bg-slate-800 text-vlc-orange' : 'text-slate-300'
+              activeMenu === 'video' ? 'bg-slate-800 text-nebula-red' : 'text-slate-300'
             }`}
           >
             Video
           </button>
           {activeMenu === 'video' && (
-            <div className="absolute top-full left-0 mt-1 w-56 bg-vlc-panel border border-vlc-border rounded-lg shadow-2xl py-1 z-50 text-slate-200">
+            <div className="absolute top-full left-0 mt-1 w-56 bg-nebula-panel border border-nebula-border rounded-lg shadow-2xl py-1 z-50 text-slate-200">
               <div className="px-3 py-1 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
                 Aspect Ratio
               </div>
@@ -260,12 +260,12 @@ export const Header: React.FC = () => {
                     setAspectRatio(ratio);
                     setActiveMenu(null);
                   }}
-                  className={`w-full text-left px-3 py-1.5 flex items-center justify-between hover:bg-vlc-orange/20 hover:text-vlc-orange ${
-                    aspectRatio === ratio ? 'text-vlc-orange font-semibold' : ''
+                  className={`w-full text-left px-3 py-1.5 flex items-center justify-between hover:bg-nebula-red/20 hover:text-nebula-red ${
+                    aspectRatio === ratio ? 'text-nebula-red font-semibold' : ''
                   }`}
                 >
                   <span>{ratio}</span>
-                  {aspectRatio === ratio && <Sparkles className="w-3 h-3 text-vlc-orange" />}
+                  {aspectRatio === ratio && <Sparkles className="w-3 h-3 text-nebula-blue" />}
                 </button>
               ))}
             </div>
@@ -277,18 +277,18 @@ export const Header: React.FC = () => {
           <button
             onClick={() => setActiveMenu(activeMenu === 'sub' ? null : 'sub')}
             className={`px-2.5 py-1 rounded transition-colors hover:bg-slate-800 ${
-              activeMenu === 'sub' ? 'bg-slate-800 text-vlc-orange' : 'text-slate-300'
+              activeMenu === 'sub' ? 'bg-slate-800 text-nebula-red' : 'text-slate-300'
             }`}
           >
             Subtitle
           </button>
           {activeMenu === 'sub' && (
-            <div className="absolute top-full left-0 mt-1 w-56 bg-vlc-panel border border-vlc-border rounded-lg shadow-2xl py-1 z-50 text-slate-200">
+            <div className="absolute top-full left-0 mt-1 w-56 bg-nebula-panel border border-nebula-border rounded-lg shadow-2xl py-1 z-50 text-slate-200">
               <button
                 onClick={() => subtitleInputRef.current?.click()}
-                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-vlc-orange/20 hover:text-vlc-orange"
+                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-nebula-red/20 hover:text-nebula-red"
               >
-                <SubIcon className="w-4 h-4" />
+                <SubIcon className="w-4 h-4 text-nebula-blue" />
                 <span>Add Subtitle File (.srt, .vtt, .ass)...</span>
               </button>
               <button
@@ -296,9 +296,9 @@ export const Header: React.FC = () => {
                   setActiveModal('subtitles');
                   setActiveMenu(null);
                 }}
-                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-vlc-orange/20 hover:text-vlc-orange"
+                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-nebula-red/20 hover:text-nebula-red"
               >
-                <Sliders className="w-4 h-4" />
+                <Sliders className="w-4 h-4 text-nebula-red" />
                 <span>Subtitle Style & Sync...</span>
               </button>
             </div>
@@ -310,21 +310,21 @@ export const Header: React.FC = () => {
           <button
             onClick={() => setActiveMenu(activeMenu === 'help' ? null : 'help')}
             className={`px-2.5 py-1 rounded transition-colors hover:bg-slate-800 ${
-              activeMenu === 'help' ? 'bg-slate-800 text-vlc-orange' : 'text-slate-300'
+              activeMenu === 'help' ? 'bg-slate-800 text-nebula-red' : 'text-slate-300'
             }`}
           >
             Help
           </button>
           {activeMenu === 'help' && (
-            <div className="absolute top-full left-0 mt-1 w-56 bg-vlc-panel border border-vlc-border rounded-lg shadow-2xl py-1 z-50 text-slate-200">
+            <div className="absolute top-full left-0 mt-1 w-56 bg-nebula-panel border border-nebula-border rounded-lg shadow-2xl py-1 z-50 text-slate-200">
               <button
                 onClick={() => {
                   setActiveModal('shortcuts');
                   setActiveMenu(null);
                 }}
-                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-vlc-orange/20 hover:text-vlc-orange"
+                className="w-full text-left px-3 py-1.5 flex items-center space-x-2.5 hover:bg-nebula-red/20 hover:text-nebula-red"
               >
-                <HelpCircle className="w-4 h-4" />
+                <HelpCircle className="w-4 h-4 text-nebula-blue" />
                 <span className="flex-1">Keyboard Shortcuts</span>
                 <span className="text-[10px] text-slate-500 font-mono">F1</span>
               </button>
@@ -339,7 +339,7 @@ export const Header: React.FC = () => {
           onClick={toggleSidebar}
           title="Toggle Playlist Sidebar (Ctrl+L)"
           className={`p-1 rounded hover:bg-slate-800 transition-colors ${
-            isSidebarOpen ? 'text-vlc-orange bg-slate-800/60' : 'text-slate-400'
+            isSidebarOpen ? 'text-nebula-red bg-slate-800/60' : 'text-slate-400'
           }`}
         >
           <ListMusic className="w-4 h-4" />

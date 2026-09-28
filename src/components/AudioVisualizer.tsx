@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { VisualizerMode } from '../types/media';
+import { Atom } from 'lucide-react';
 
 interface VisualizerProps {
   analyserNode: AnalyserNode | null;
@@ -46,17 +47,18 @@ export const AudioVisualizer: React.FC<VisualizerProps> = ({
 
       ctx.clearRect(0, 0, width, height);
 
-      // Draw background glow
+      // Cosmic background radial glow
       const bgGradient = ctx.createRadialGradient(
         width / 2,
         height / 2,
         10,
         width / 2,
         height / 2,
-        width / 1.5
+        width / 1.4
       );
-      bgGradient.addColorStop(0, 'rgba(255, 136, 0, 0.08)');
-      bgGradient.addColorStop(1, 'rgba(18, 19, 22, 0.95)');
+      bgGradient.addColorStop(0, 'rgba(255, 23, 68, 0.12)');
+      bgGradient.addColorStop(0.5, 'rgba(0, 240, 255, 0.08)');
+      bgGradient.addColorStop(1, 'rgba(11, 13, 25, 0.98)');
       ctx.fillStyle = bgGradient;
       ctx.fillRect(0, 0, width, height);
 
@@ -69,9 +71,9 @@ export const AudioVisualizer: React.FC<VisualizerProps> = ({
           const barHeight = (dataArray[i] / 255) * (height * 0.7);
 
           const gradient = ctx.createLinearGradient(0, height, 0, height - barHeight);
-          gradient.addColorStop(0, '#FF8800');
-          gradient.addColorStop(0.6, '#FFA033');
-          gradient.addColorStop(1, '#007ACC');
+          gradient.addColorStop(0, '#FF1744'); // Crimson Red
+          gradient.addColorStop(0.5, '#A855F7'); // Purple
+          gradient.addColorStop(1, '#00F0FF'); // Electric Cyan
 
           ctx.fillStyle = gradient;
           ctx.fillRect(x, height - barHeight, barWidth - 1, barHeight);
@@ -80,8 +82,8 @@ export const AudioVisualizer: React.FC<VisualizerProps> = ({
         }
       } else if (mode === 'wave') {
         analyserNode.getByteTimeDomainData(dataArray);
-        ctx.lineWidth = 2.5;
-        ctx.strokeStyle = '#FF8800';
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#FF1744';
         ctx.beginPath();
 
         const sliceWidth = width / bufferLength;
@@ -110,7 +112,7 @@ export const AudioVisualizer: React.FC<VisualizerProps> = ({
 
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-        ctx.strokeStyle = 'rgba(255, 136, 0, 0.4)';
+        ctx.strokeStyle = 'rgba(0, 240, 255, 0.4)';
         ctx.lineWidth = 3;
         ctx.stroke();
 
@@ -119,7 +121,7 @@ export const AudioVisualizer: React.FC<VisualizerProps> = ({
 
         for (let i = 0; i < bars; i++) {
           const value = dataArray[i * 2] || 0;
-          const barHeight = (value / 255) * (radius * 0.8);
+          const barHeight = (value / 255) * (radius * 0.85);
           const angle = i * step;
 
           const x1 = centerX + Math.cos(angle) * radius;
@@ -130,7 +132,7 @@ export const AudioVisualizer: React.FC<VisualizerProps> = ({
           ctx.beginPath();
           ctx.moveTo(x1, y1);
           ctx.lineTo(x2, y2);
-          ctx.strokeStyle = `hsl(${(i * 360) / bars}, 100%, 50%)`;
+          ctx.strokeStyle = i % 2 === 0 ? '#FF1744' : '#00F0FF';
           ctx.lineWidth = 3;
           ctx.stroke();
         }
@@ -147,21 +149,21 @@ export const AudioVisualizer: React.FC<VisualizerProps> = ({
   }, [analyserNode, mode, isPlaying]);
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center bg-vlc-dark overflow-hidden select-none">
+    <div className="relative w-full h-full flex flex-col items-center justify-center bg-nebula-dark overflow-hidden select-none">
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
       {/* Track Overlay Info in middle of visualizer */}
       <div className="relative z-10 text-center px-6 pointer-events-none">
-        <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-tr from-vlc-orange to-yellow-500 flex items-center justify-center shadow-glow-orange animate-pulse-subtle">
-          <svg className="w-12 h-12 text-slate-950" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
-          </svg>
+        <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-tr from-nebula-red via-purple-600 to-nebula-blue flex items-center justify-center shadow-glow-red animate-pulse-subtle p-0.5">
+          <div className="w-full h-full bg-nebula-dark rounded-full flex items-center justify-center">
+            <Atom className="w-12 h-12 text-nebula-blue animate-spin-slow" />
+          </div>
         </div>
         <h2 className="text-xl font-bold text-slate-100 tracking-wide mb-1 drop-shadow-md">
           {trackTitle || 'Audio Track'}
         </h2>
-        <p className="text-sm text-vlc-orange font-medium drop-shadow">
-          {artistName || 'VLC Audio Engine'}
+        <p className="text-sm text-nebula-red font-semibold drop-shadow">
+          {artistName || 'Nebula Audio Engine'}
         </p>
       </div>
     </div>

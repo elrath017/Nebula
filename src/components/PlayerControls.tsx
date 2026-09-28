@@ -89,23 +89,23 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
 
   const getVolumeIcon = () => {
     if (isMuted || volume === 0) return <VolumeX className="w-4 h-4 text-red-400" />;
-    if (volume > 100) return <Volume2 className="w-4 h-4 text-vlc-orange animate-pulse" />;
+    if (volume > 100) return <Volume2 className="w-4 h-4 text-nebula-red animate-pulse" />;
     if (volume < 50) return <Volume1 className="w-4 h-4 text-slate-300" />;
-    return <Volume2 className="w-4 h-4 text-slate-200" />;
+    return <Volume2 className="w-4 h-4 text-nebula-blue" />;
   };
 
   return (
     <div
-      className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-vlc-dark/95 via-vlc-dark/85 to-transparent backdrop-blur-md border-t border-vlc-border/40 px-4 py-3 flex flex-col justify-between transition-all duration-300 z-30 select-none ${
+      className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-nebula-dark/95 via-nebula-dark/85 to-transparent backdrop-blur-md border-t border-nebula-border/50 px-4 py-3 flex flex-col justify-between transition-all duration-300 z-30 select-none ${
         isControlsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full pointer-events-none'
       }`}
     >
-      {/* 1. Timeline Scrubber Bar with Time Tooltip */}
+      {/* 1. Timeline Scrubber Bar with Cosmic Time Tooltip */}
       <div className="relative mb-2 group cursor-pointer" onMouseMove={handleScrubberMouseMove} onMouseLeave={() => setHoverTime(null)}>
         {/* Hover Time Tooltip */}
         {hoverTime !== null && (
           <div
-            className="absolute -top-8 bg-vlc-panel text-vlc-orange font-mono text-[11px] font-semibold px-2 py-0.5 rounded shadow-lg border border-vlc-border -translate-x-1/2 pointer-events-none z-50"
+            className="absolute -top-8 bg-nebula-panel text-nebula-blue font-mono text-[11px] font-semibold px-2 py-0.5 rounded-md shadow-glow-blue border border-nebula-border -translate-x-1/2 pointer-events-none z-50"
             style={{ left: `${hoverPosition}%` }}
           >
             {formatTime(hoverTime)}
@@ -115,11 +115,11 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
         {/* Custom Progress Track */}
         <div
           onClick={handleScrubberClick}
-          className="relative w-full h-2 bg-slate-800 rounded-full overflow-hidden transition-all group-hover:h-2.5"
+          className="relative w-full h-2 bg-slate-900 rounded-full overflow-hidden transition-all group-hover:h-2.5 border border-slate-800"
         >
-          {/* Progress Fill */}
+          {/* Progress Fill (Nebula Red-to-Cyan Gradient) */}
           <div
-            className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-vlc-orange to-yellow-400 transition-all rounded-full shadow-glow-orange"
+            className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-nebula-red via-purple-500 to-nebula-blue transition-all rounded-full shadow-glow-red"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -134,12 +134,12 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
             onClick={togglePlay}
             disabled={!currentTrack}
             title="Play / Pause (Space)"
-            className="w-9 h-9 rounded-full bg-vlc-orange hover:bg-vlc-orange-hover text-slate-950 flex items-center justify-center transition-all shadow-glow-orange active:scale-95 disabled:opacity-50"
+            className="w-9 h-9 rounded-full bg-gradient-to-tr from-nebula-red to-rose-500 hover:from-rose-500 hover:to-nebula-red text-white flex items-center justify-center transition-all shadow-glow-red active:scale-95 disabled:opacity-40"
           >
             {playbackStatus === 'Playing' ? (
-              <Pause className="w-5 h-5 fill-slate-950" />
+              <Pause className="w-5 h-5 fill-white" />
             ) : (
-              <Play className="w-5 h-5 ml-0.5 fill-slate-950" />
+              <Play className="w-5 h-5 ml-0.5 fill-white" />
             )}
           </button>
 
@@ -168,7 +168,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
             onClick={() => jumpRelative(-5)}
             disabled={!currentTrack}
             title="Jump Backward 5s (Left Arrow)"
-            className="px-1.5 py-1 rounded text-slate-400 hover:text-vlc-orange hover:bg-slate-800 transition-colors font-mono text-[10px] disabled:opacity-40"
+            className="px-1.5 py-1 rounded text-slate-400 hover:text-nebula-blue hover:bg-slate-800 transition-colors font-mono text-[10px] disabled:opacity-40"
           >
             -5s
           </button>
@@ -178,7 +178,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
             onClick={() => jumpRelative(5)}
             disabled={!currentTrack}
             title="Jump Forward 5s (Right Arrow)"
-            className="px-1.5 py-1 rounded text-slate-400 hover:text-vlc-orange hover:bg-slate-800 transition-colors font-mono text-[10px] disabled:opacity-40"
+            className="px-1.5 py-1 rounded text-slate-400 hover:text-nebula-blue hover:bg-slate-800 transition-colors font-mono text-[10px] disabled:opacity-40"
           >
             +5s
           </button>
@@ -198,7 +198,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
             onClick={stepFrame}
             disabled={!currentTrack}
             title="Frame-by-Frame Advance (E)"
-            className="px-2 py-1 rounded bg-slate-800 text-slate-300 hover:text-vlc-orange hover:bg-slate-700 transition-colors font-mono text-[10px] flex items-center space-x-1 disabled:opacity-40"
+            className="px-2 py-1 rounded bg-slate-800/90 text-slate-300 hover:text-nebula-red hover:bg-slate-700 transition-colors font-mono text-[10px] flex items-center space-x-1 disabled:opacity-40"
           >
             <span>+1 Frame</span>
             <ChevronRight className="w-3 h-3" />
@@ -209,7 +209,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
             onClick={toggleLoop}
             title={`Loop Mode: ${isLooping}`}
             className={`p-1.5 rounded transition-colors ${
-              isLooping !== 'off' ? 'text-vlc-orange bg-vlc-orange/10 font-bold' : 'text-slate-400 hover:text-slate-200'
+              isLooping !== 'off' ? 'text-nebula-red bg-nebula-red/15 font-bold' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
             <Repeat className="w-4 h-4" />
@@ -219,7 +219,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
             onClick={toggleShuffle}
             title={`Shuffle: ${isShuffle ? 'On' : 'Off'}`}
             className={`p-1.5 rounded transition-colors ${
-              isShuffle ? 'text-vlc-orange bg-vlc-orange/10 font-bold' : 'text-slate-400 hover:text-slate-200'
+              isShuffle ? 'text-nebula-red bg-nebula-red/15 font-bold' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
             <Shuffle className="w-4 h-4" />
@@ -227,7 +227,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
 
           {/* Time Display */}
           <div className="font-mono text-slate-300 text-[11px] ml-2 hidden md:inline">
-            <span className="text-vlc-orange font-semibold">{formatTime(currentTime)}</span>
+            <span className="text-nebula-red font-semibold">{formatTime(currentTime)}</span>
             <span className="text-slate-500 mx-1">/</span>
             <span>{formatTime(duration)}</span>
           </div>
@@ -236,7 +236,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
         {/* Right Section: Audio Boost, Speed, Aspect Ratio, Modals & Window Controls */}
         <div className="flex items-center space-x-2 sm:space-x-3">
           {/* Volume Control Slider with 200% Boost Indicator */}
-          <div className="flex items-center space-x-2 bg-slate-900/80 border border-slate-800 px-2.5 py-1 rounded-lg">
+          <div className="flex items-center space-x-2 bg-slate-900/90 border border-nebula-border/60 px-2.5 py-1 rounded-lg">
             <button onClick={toggleMute} title="Mute / Unmute (M)">
               {getVolumeIcon()}
             </button>
@@ -246,11 +246,11 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
               max="200"
               value={isMuted ? 0 : volume}
               onChange={(e) => setVolume(Number(e.target.value))}
-              className="w-16 sm:w-24 accent-vlc-orange"
+              className="w-16 sm:w-24 accent-nebula-red"
             />
             <span
               className={`font-mono text-[11px] min-w-[38px] text-right font-semibold ${
-                volume > 100 ? 'text-vlc-orange font-bold' : 'text-slate-400'
+                volume > 100 ? 'text-nebula-red font-bold' : 'text-slate-400'
               }`}
             >
               {isMuted ? '0%' : `${volume}%`}
@@ -261,7 +261,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
           <div className="relative">
             <button
               onClick={() => setShowSpeedMenu(!showSpeedMenu)}
-              className="px-2 py-1 rounded bg-slate-800 text-slate-300 hover:text-vlc-orange transition-colors flex items-center space-x-1 text-[11px] font-mono"
+              className="px-2 py-1 rounded bg-slate-800 text-slate-300 hover:text-nebula-blue transition-colors flex items-center space-x-1 text-[11px] font-mono"
               title="Playback Speed ([ and ])"
             >
               <Gauge className="w-3.5 h-3.5" />
@@ -269,7 +269,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
             </button>
 
             {showSpeedMenu && (
-              <div className="absolute bottom-full right-0 mb-2 w-28 bg-vlc-panel border border-vlc-border rounded-lg shadow-2xl py-1 z-50">
+              <div className="absolute bottom-full right-0 mb-2 w-28 bg-nebula-panel border border-nebula-border rounded-lg shadow-2xl py-1 z-50">
                 {[0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0].map((s) => (
                   <button
                     key={s}
@@ -277,12 +277,12 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
                       setPlaybackSpeed(s);
                       setShowSpeedMenu(false);
                     }}
-                    className={`w-full text-left px-3 py-1 text-[11px] hover:bg-vlc-orange/20 hover:text-vlc-orange font-mono flex items-center justify-between ${
-                      playbackSpeed === s ? 'text-vlc-orange font-bold' : 'text-slate-300'
+                    className={`w-full text-left px-3 py-1 text-[11px] hover:bg-nebula-red/20 hover:text-nebula-red font-mono flex items-center justify-between ${
+                      playbackSpeed === s ? 'text-nebula-red font-bold' : 'text-slate-300'
                     }`}
                   >
                     <span>{s}x</span>
-                    {playbackSpeed === s && <Sparkles className="w-3 h-3 text-vlc-orange" />}
+                    {playbackSpeed === s && <Sparkles className="w-3 h-3 text-nebula-blue" />}
                   </button>
                 ))}
               </div>
@@ -297,7 +297,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
               setAspectRatio(ratios[nextIdx]);
             }}
             title="Aspect Ratio (A)"
-            className="px-2 py-1 rounded bg-slate-800 text-slate-300 hover:text-vlc-orange transition-colors text-[11px] font-semibold hidden lg:inline"
+            className="px-2 py-1 rounded bg-slate-800 text-slate-300 hover:text-nebula-blue transition-colors text-[11px] font-semibold hidden lg:inline"
           >
             {aspectRatio}
           </button>
@@ -325,7 +325,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
             onClick={toggleSidebar}
             title="Playlist Sidebar (Ctrl+L)"
             className={`p-1.5 rounded transition-colors ${
-              isSidebarOpen ? 'text-vlc-orange bg-slate-800' : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800'
+              isSidebarOpen ? 'text-nebula-red bg-slate-800' : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800'
             }`}
           >
             <ListMusic className="w-4 h-4" />
